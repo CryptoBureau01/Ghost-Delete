@@ -1,0 +1,37 @@
+#!/bin/bash
+
+Dalete-Ghost() {
+    echo "Stopping and disabling Ghost node service..."
+    sudo systemctl stop ghost-node
+    sudo systemctl disable ghost-node
+
+    echo "Removing Ghost node service files..."
+    sudo rm -rf /etc/systemd/system/ghost-node.service
+    sudo systemctl daemon-reload
+
+    echo "Deleting Ghost node directories..."
+    sudo rm -rf /root/ghost
+    sudo rm -rf /etc/ghost
+    sudo rm -rf /var/lib/ghost
+
+    echo "Removing Rust and Cargo..."
+    sudo rm -rf $HOME/.cargo
+    sudo rm -rf $HOME/.rustup
+    sudo apt remove --purge -y rustc cargo
+
+    echo "Removing firewall rules..."
+    sudo ufw delete allow 30333
+    sudo ufw delete deny 9945
+
+    echo "Cleaning up system packages..."
+    sudo apt autoremove -y
+    sudo apt clean
+
+    echo "Ghost full node deleted successfully! ✅"
+
+    echo "Rebooting system for final cleanup..."
+    sudo reboot
+}
+
+# Run the function
+Dalete-Ghost
