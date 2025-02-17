@@ -1,4 +1,4 @@
-#!/bin/bash
+# !/bin/bash
 
 Dalete-Ghost() {
     echo "Stopping and disabling Ghost node service..."
